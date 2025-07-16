@@ -1,0 +1,89 @@
+<div class="naming-report" [@fadeIn]>
+  <h2 class="report-title">Informe de Naming</h2>
+
+  <div *ngIf="loading" class="loading-spinner">
+    <div class="progress-circle">
+      <svg width="72" height="72">
+        <circle class="bg" cx="36" cy="36" r="32"/>
+        <circle class="fg" cx="36" cy="36" r="32" [attr.stroke-dasharray]="201" [attr.stroke-dashoffset]="201 - (progress/100)*201"/>
+      </svg>
+      <div class="progress-text">{{ progress | number:'1.0-0' }}%</div>
+    </div>
+    <div class="loading-text">
+      <span>Cargando</span><span class="dots">{{ (progress % 100 < 33) ? '.' : (progress % 100 < 66) ? '..' : '...' }}</span>
+    </div>
+  </div>
+
+  <div *ngIf="!loading" class="naming-dashboard" [@fadeIn]>
+  <div class="dashboard-header">
+    <h2 class="dashboard-title">Informe de Naming</h2>
+    <div class="dashboard-subtitle">Reporte visual de sugerencias generadas</div>
+  </div>
+  <div class="dashboard-grid">
+    <!-- Columna izquierda: Resumen -->
+    <div class="dashboard-summary">
+      <div class="summary-section">
+        <div class="summary-title">Resumen</div>
+        <div class="summary-stat">
+          <span class="summary-stat-value">{{ resultados.length }}</span>
+          <span class="summary-stat-label">Sugerencias generadas</span>
+        </div>
+        <div class="summary-stat">
+          <span class="summary-stat-value palette">
+            <ng-container *ngFor="let color of getColoresDestacados()">
+              <span class="color-dot" [style.background]="color"></span>
+            </ng-container>
+          </span>
+          <span class="summary-stat-label">Colores destacados</span>
+        </div>
+        <div class="summary-stat">
+          <span class="summary-stat-label">Email ingresado:</span>
+          <span class="summary-stat-value">{{ email }}</span>
+        </div>
+      </div>
+      <div class="summary-section highlights">
+        <div class="summary-title">Highlights</div>
+        <ul class="highlights-list">
+  <li *ngIf="resultados.length > 0">
+    Nombre más creativo: <b>{{ resultados[0].nombre }}</b>
+  </li>
+  <li *ngIf="resultados.length > 0 && resultados[0].colores.length > 0">
+    Paleta más usada: <span class="color-dot" [style.background]="resultados[0].colores[0]"></span>
+  </li>
+  <li>
+    Total slogans: <b>{{ resultados.length }}</b>
+  </li>
+</ul>
+      </div>
+    </div>
+    <!-- Columna derecha: KPIs -->
+    <div class="dashboard-kpis">
+      <div class="kpi-grid">
+        <div class="kpi-card" *ngFor="let item of resultados" [@cardFadeIn]>
+          <div class="kpi-title">{{ item.nombre }}</div>
+          <div class="kpi-row">
+            <div class="kpi-block">
+              
+              <div class="kpi-label">Slogan</div>
+              <div class="kpi-value">{{ item.slogan }}</div>
+            </div>
+            <div class="kpi-block">
+              
+              <div class="kpi-label">Descripción</div>
+              <div class="kpi-value">{{ item.descripcion }}</div>
+            </div>
+            <div class="kpi-block">
+
+              <div class="kpi-label">Colores</div>
+              <div class="kpi-value kpi-palette">
+                <span *ngFor="let color of item.colores" class="infocard-color" [style.background]="color"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+

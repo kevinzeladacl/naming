@@ -1,0 +1,16 @@
+<div class="step step-idea">
+  <textarea placeholder="Cuéntanos tu idea: ¿qué quieres lograr?" rows="6" [(ngModel)]="idea"></textarea>
+
+  <div class="slider-creatividad">
+    <label for="creatividad">Nivel de creatividad:</label>
+    <input id="creatividad" type="range" min="0" max="1" step="0.01" [(ngModel)]="creatividad">
+    <span class="creatividad-value">{{ creatividad | number: '1.2-2' }}</span>
+    <div class="creatividad-desc">
+      <span *ngIf="creatividad <= 0.3">Formalidad clásica</span>
+      <span *ngIf="creatividad > 0.3 && creatividad < 0.7">Equilibrio creatividad y formalidad</span>
+      <span *ngIf="creatividad >= 0.7">Creatividad máxima</span>
+    </div>
+  </div>
+
+  <button class="btn btn-primary" (click)="irAlPasoDos()">Siguiente</button>
+</div>
